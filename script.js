@@ -237,3 +237,38 @@ clearButton.addEventListener("click", () => {
 
   curves.length = 0;
 });
+
+const exportButton = document.getElementById("exportButton");
+
+exportButton.addEventListener("click", () => {
+  const info = {
+    canvas_width: canvas.width,
+    canvas_height: canvas.height,
+    x: 100,
+    y: 100,
+    z: 10,
+    speed: 1000,
+    feed: 50,
+  };
+  // TODO: change this when I host backend ;-;
+  const apiUrl = "http://127.0.0.1:8000/generate_gcode/";
+  fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([info, ...curves]),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Generated G-code:", data.gcode);
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
+});
