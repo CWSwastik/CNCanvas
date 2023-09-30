@@ -10,17 +10,17 @@ body {
 }
 
 #appTitle {
-  font-size: 36px;
+  font-size: 32px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 canvas {
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: 500px;
   border: 2px solid #333;
   background-color: #fff;
-  margin: 10px;
+  margin: 5px;
 }
 
 #tools {
@@ -29,6 +29,11 @@ canvas {
   margin: 10px;
 }
 
+#extra {
+  display: flex;
+
+  gap: 10px;
+}
 button {
   padding: 10px 20px;
   background-color: #0077cc;
@@ -69,4 +74,14 @@ button:hover {
 
 #exportButton:hover {
   background-color: #00802b;
+}
+
+.autosnap-toggle {
+  display: inline-block;
+  position: relative;
+  padding: 10px 20px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }

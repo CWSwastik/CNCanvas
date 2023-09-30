@@ -105,7 +105,7 @@ canvas.addEventListener("mousedown", (e) => {
   if (selectedTool === "line") {
     isDrawingLine = !isDrawingLine; // Toggle drawing state for straight lines
     if (isDrawingLine) {
-      startPoint = { ...canvasPos };
+      startPoint = autoSnap({ ...canvasPos });
     } else {
       endPoint = { ...canvasPos };
       drawLine(startPoint, endPoint);
@@ -117,7 +117,8 @@ canvas.addEventListener("mousedown", (e) => {
     }
   } else {
     isDrawing = true;
-    startPoint = { ...canvasPos };
+    startPoint = autoSnap(canvasPos);
+
     endPoint = { ...canvasPos };
   }
 });
@@ -140,7 +141,7 @@ function drawArcPreview() {
 }
 canvas.addEventListener("mousemove", (e) => {
   const canvasPos = getCanvasPosition(e);
-  endPoint = { ...canvasPos };
+  endPoint = autoSnap({ ...canvasPos });
   if (isDrawing && selectedTool !== "line") {
     drawArcPreview();
   } else if (isDrawingLine) {
@@ -169,6 +170,8 @@ function drawCurves() {
 }
 
 canvas.addEventListener("mouseup", (e) => {
+  endPoint = autoSnap(getCanvasPosition(e));
+
   if (isDrawing && selectedTool !== "line") {
     isDrawing = false;
     // Store the drawn curve in the curves array
@@ -188,7 +191,7 @@ canvas.addEventListener("mouseup", (e) => {
   } else if (isDrawingLine) {
     // Finalize the straight line
     isDrawingLine = false;
-    endPoint = { ...getCanvasPosition(e) };
+
     drawLine(startPoint, endPoint);
     curves.push({
       type: "line",
@@ -272,3 +275,53 @@ exportButton.addEventListener("click", () => {
       console.error("Fetch error:", error);
     });
 });
+
+const undoButton = document.getElementById("undoButton");
+
+function undo() {
+  curves.pop();
+  drawCurves();
+}
+
+undoButton.addEventListener("click", () => {
+  undo();
+});
+
+document.addEventListener("keydown", function (event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === "z") {
+    // Check for Control (or Command on Mac) key and Z key press
+    undo();
+    event.preventDefault(); // Prevent the browser's default behavior (e.g., undoing text input)
+  }
+});
+
+const autoSnapCheckbox = document.getElementById("autoSnapCheckbox");
+let isAutoSnapEnabled = true;
+
+autoSnapCheckbox.addEventListener("change", function () {
+  isAutoSnapEnabled = autoSnapCheckbox.checked;
+});
+
+function autoSnap(point) {
+  // Snap to a curve's start or end point if auto-snap is enabled
+  // and the distance between point and that curve's start/end point is small enough
+  if (isAutoSnapEnabled) {
+    let minDist = Infinity;
+    for (const curve of curves) {
+      const d1 = Math.sqrt(
+        (point.x - curve.start.x) ** 2 + (point.y - curve.start.y) ** 2
+      );
+      const d2 = Math.sqrt(
+        (point.x - curve.end.x) ** 2 + (point.y - curve.end.y) ** 2
+      );
+      if (d1 < 15 && d1 < minDist) {
+        point = { ...curve.start };
+        minDist = d1;
+      } else if (d2 < 15 && d2 < minDist) {
+        point = { ...curve.end };
+        minDist = d2;
+      }
+    }
+  }
+  return point;
+}

@@ -7,7 +7,7 @@
     <title>CNC Sketch App</title>
   </head>
   <body>
-    <h1 id="appTitle">CNCanvas v1.0</h1>
+    <h2 id="appTitle">CNCanvas v1.1</h2>
     <div id="infoBox">
       <div>X, Y: <span id="coordinates">(0, 0)</span></div>
       <div>Radius: <span id="radius">0</span></div>
@@ -21,6 +21,11 @@
     <div id="extra">
       <button id="clearButton">Clear</button>
       <button id="exportButton">Export</button>
+      <button id="undoButton">Undo</button>
+      <div class="autosnap-toggle">
+        <label for="autoSnapCheckbox">Auto Snap</label>
+        <input type="checkbox" id="autoSnapCheckbox" checked />
+      </div>
     </div>
     <script src="script.js"></script>
   </body>

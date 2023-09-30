@@ -1,1 +1,1 @@
-# CNCanvas v1.0
+# CNCanvas v1.1
