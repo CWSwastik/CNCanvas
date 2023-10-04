@@ -269,7 +269,8 @@ exportButton.addEventListener("click", () => {
       return response.json();
     })
     .then((data) => {
-      console.log("Generated G-code:", data.gcode);
+      // console.log("Generated G-code:", data.gcode);
+      showPopup(data.transaction_code, data.price);
     })
     .catch((error) => {
       console.error("Fetch error:", error);
@@ -325,3 +326,18 @@ function autoSnap(point) {
   }
   return point;
 }
+
+function showPopup(transactionCode, price) {
+  const popupContainer = document.getElementById("popupContainer");
+  popupContainer.style.display = "flex";
+
+  document.getElementById("transactionCode").textContent = transactionCode;
+  document.getElementById("price").textContent = price;
+}
+
+function closePopup() {
+  const popupContainer = document.getElementById("popupContainer");
+  popupContainer.style.display = "none";
+}
+
+document.getElementById("closeButton").addEventListener("click", closePopup);
