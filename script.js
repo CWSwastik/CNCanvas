@@ -254,7 +254,7 @@ exportButton.addEventListener("click", () => {
     feed: 50,
   };
   // TODO: change this when I host backend ;-;
-  const apiUrl = "http://127.0.0.1:8000/generate_gcode/";
+  const apiUrl = "https://cncanvasbackend.cwswastik2005.repl.co"; // "http://127.0.0.1:8000/generate_gcode/";
   fetch(apiUrl, {
     method: "POST",
     headers: {
