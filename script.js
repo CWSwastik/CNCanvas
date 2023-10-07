@@ -254,7 +254,10 @@ exportButton.addEventListener("click", () => {
     feed: 50,
   };
   // TODO: change this when I host backend ;-;
-  const apiUrl = "https://cncanvasbackend.cwswastik2005.repl.co"; // "http://127.0.0.1:8000/generate_gcode/";
+  // "https://cncanvasbackend.cwswastik2005.repl.co"
+  // PLEASE DO NOT FORGET A / AT THE END OF THE URL CORS SMH
+  const apiUrl =
+    "https://cncanvasbackend.cwswastik2005.repl.co/generate_gcode/"; //"http://127.0.0.1:5000/generate_gcode/";
   fetch(apiUrl, {
     method: "POST",
     headers: {
