@@ -244,6 +244,12 @@ clearButton.addEventListener("click", () => {
 const exportButton = document.getElementById("exportButton");
 
 exportButton.addEventListener("click", () => {
+  // Disable the button to prevent multiple clicks
+  const exportButton = document.getElementById("exportButton");
+  exportButton.disabled = true;
+
+  exportButton.textContent = "Exporting...";
+
   const info = {
     canvas_width: canvas.width,
     canvas_height: canvas.height,
@@ -274,11 +280,41 @@ exportButton.addEventListener("click", () => {
     .then((data) => {
       // console.log("Generated G-code:", data.gcode);
       showPopup(data.transaction_code, data.price);
+      exportButton.disabled = false;
+      exportButton.textContent = "Export";
     })
     .catch((error) => {
-      console.error("Fetch error:", error);
+      console.error("Export request failed:", error);
+
+      exportButton.disabled = false;
+      exportButton.textContent = "Export";
+      alert("Export failed. Please try again later.");
     });
 });
+
+function exportAndShowLoading() {
+  // Make the export request to the server
+  fetch("http://your-api-url.com/export", {
+    method: "POST",
+    // Add any required headers and request body here
+  })
+    .then((response) => {
+      // Handle the response as needed
+      // ...
+
+      // Re-enable the button and restore the original text
+      exportButton.disabled = false;
+      exportButton.textContent = "Export";
+    })
+    .catch((error) => {
+      console.error("Export request failed:", error);
+
+      // Re-enable the button and show an error message
+      exportButton.disabled = false;
+      exportButton.textContent = "Export";
+      alert("Export failed. Please try again later.");
+    });
+}
 
 const undoButton = document.getElementById("undoButton");
 
