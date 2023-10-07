@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View GCode</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      #gcode-container {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-height: 400px; /* Set a maximum height */
+        overflow-y: auto; /* Enable vertical scrollbar if content exceeds max height */
+        width: 300px;
+      }
+
+      .button-container {
+        display: none;
+      }
+
+      .button {
+        padding: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .button-copied {
+        background-color: #28a745;
+      }
+
+      .tip-message {
+        display: none;
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 10px;
+      }
+      .tip-message a {
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>View GCode</h1>
+    <div class="button-container">
+      <button class="button" id="copyButton">Copy to Clipboard</button>
+      <button class="button" id="downloadButton">Download as TXT</button>
+    </div>
+    <div class="tip-message">
+      Tip: You can view the GCode on
+      <a href="https://ncviewer.com/" target="_blank">NCViewer</a> online or on
+      CIMCO.
+    </div>
+    <pre>
+    <div id="gcode-container">
+      <!-- The response will be displayed here -->
+    </div>
+    </pre>
+    <script>
+      // Function to fetch and display GCode
+      function fetchAndDisplayGCode() {
+        // Get the 'id' from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
+
+        // Check if 'id' is provided
+        if (!id) {
+          document.getElementById("gcode-container").textContent =
+            "Error: No ID provided.";
+          return;
+        }
+
+        // Make an API request with the 'id'
+        fetch(
+          `https://cncanvasbackend.cwswastik2005.repl.co/view_gcode?id=${id}`
+        )
+          .then((response) => {
+            if (!response.ok) {
+              if (response.status == 404) {
+                throw new Error("GCode not found with the given ID.");
+              } else if (response.status == 400) {
+                throw new Error("ID not specifed.");
+              } else {
+                throw new Error("Network response was not ok");
+              }
+            }
+            return response.text();
+          })
+          .then((data) => {
+            // Display the GCode response
+            document.getElementById("gcode-container").textContent = data;
+
+            // Show the button container and tip message
+            document.querySelector(".button-container").style.display = "flex";
+            document.querySelector(".tip-message").style.display = "block";
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+            document.getElementById("gcode-container").textContent =
+              "Error: " + error.message;
+          });
+      }
+
+      // Call the function when the page loads
+      window.addEventListener("load", fetchAndDisplayGCode);
+      // Copy text to clipboard
+      document
+        .getElementById("copyButton")
+        .addEventListener("click", function () {
+          const gcodeText =
+            document.getElementById("gcode-container").textContent;
+          navigator.clipboard
+            .writeText(gcodeText)
+            .then(() => {
+              // Copy successful, change button text and color
+              const copyButton = document.getElementById("copyButton");
+              copyButton.textContent = "Copied!";
+              copyButton.classList.add("button-copied");
+              setTimeout(() => {
+                // Reset button text and color after 2 seconds
+                copyButton.textContent = "Copy to Clipboard";
+                copyButton.classList.remove("button-copied");
+              }, 2000);
+            })
+            .catch((error) => {
+              console.error("Copy to clipboard failed:", error);
+            });
+        });
+
+      // Download text as a text file
+      document
+        .getElementById("downloadButton")
+        .addEventListener("click", function () {
+          const gcodeText =
+            document.getElementById("gcode-container").textContent;
+          const blob = new Blob([gcodeText], { type: "text/plain" });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "gcode.txt";
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
+    </script>
+  </body>
+</html>

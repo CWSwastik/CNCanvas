@@ -344,3 +344,10 @@ function closePopup() {
 }
 
 document.getElementById("closeButton").addEventListener("click", closePopup);
+
+document.getElementById("viewGCodeButton").addEventListener("click", () => {
+  window.open(
+    "/view_gcode.html?id=" +
+      document.getElementById("transactionCode").textContent
+  );
+});

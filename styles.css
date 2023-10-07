@@ -119,3 +119,7 @@ button:hover {
 .qr-code {
   max-width: 200px;
 }
+
+#priceDetails {
+  display: none; /* Hidden for now */
+}

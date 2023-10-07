@@ -7,7 +7,7 @@
     <title>CNC Sketch App</title>
   </head>
   <body>
-    <h2 id="appTitle">CNCanvas v1.1</h2>
+    <h2 id="appTitle">CNCanvas v1.2</h2>
     <div id="infoBox">
       <div>X, Y: <span id="coordinates">(0, 0)</span></div>
       <div>Radius: <span id="radius">0</span></div>
@@ -32,20 +32,23 @@
     <div id="popupContainer" class="popup-container">
       <div class="popup-content">
         <span class="close-button" id="closeButton">&times;</span>
-        <h2>Export in GCode</h2>
-        <p>
-          Transaction Code: <b><span id="transactionCode">ABC123</span></b>
-        </p>
-        <p>
-          Price: <b>₹<span id="price">50</span></b>
-        </p>
-
+        <h2>Export to GCode</h2>
+        <div id="priceDetails">
+          <p>
+            Transaction Code: <b><span id="transactionCode">ABC123</span></b>
+          </p>
+          <p>
+            Price: <b>₹<span id="price">50</span></b>
+          </p>
+        </div>
         <img src="qr.png" id="qrCode" class="qr-code" />
         <p>
-          Make the payment and send the payment screenshot
-          <b>along with the Transaction Code</b> to <b>+919599400138</b> on
-          whatsapp and you'll receive your gcode within 3 hours.
+          While this software is currently free, it's a product of significant
+          effort. If you value it, your financial support would be greatly
+          appreciated. Even if it's just ₹1, please consider donating. Your
+          contributions enable more projects like this. Thank you!
         </p>
+        <button id="viewGCodeButton">View GCode</button>
       </div>
     </div>
 
