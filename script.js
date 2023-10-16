@@ -390,5 +390,5 @@ document.getElementById("viewGCodeButton").addEventListener("click", () => {
 
 if (window.innerWidth < 768) {
   const mobileNote = document.getElementById("mobileNote");
-  mobileNote.style.display = "block";
+  mobileNote.style.display = "flex";
 }
