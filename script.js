@@ -387,3 +387,8 @@ document.getElementById("viewGCodeButton").addEventListener("click", () => {
       document.getElementById("transactionCode").textContent
   );
 });
+
+if (window.innerWidth < 768) {
+  const mobileNote = document.getElementById("mobileNote");
+  mobileNote.style.display = "block";
+}
