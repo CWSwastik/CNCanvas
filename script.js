@@ -276,7 +276,7 @@ exportButton.addEventListener("click", () => {
   // "https://cncanvasbackend.cwswastik2005.repl.co"
   // PLEASE DO NOT FORGET A / AT THE END OF THE URL CORS SMH
   const apiUrl =
-    "https://cncanvasbackend.cwswastik2005.repl.co/generate_gcode/"; //"http://127.0.0.1:5000/generate_gcode/";
+    "https://0befbed3-5ba4-4003-87dd-d94ec8d46fbf-00-1f6kzxkpyp3ik.asia-b.replit.dev/generate_gcode/"; //"http://127.0.0.1:5000/generate_gcode/";
   fetch(apiUrl, {
     method: "POST",
     headers: {
