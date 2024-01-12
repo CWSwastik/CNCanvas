@@ -292,30 +292,6 @@ exportButton.addEventListener("click", () => {
     });
 });
 
-function exportAndShowLoading() {
-  // Make the export request to the server
-  fetch("http://your-api-url.com/export", {
-    method: "POST",
-    // Add any required headers and request body here
-  })
-    .then((response) => {
-      // Handle the response as needed
-      // ...
-
-      // Re-enable the button and restore the original text
-      exportButton.disabled = false;
-      exportButton.textContent = "Export";
-    })
-    .catch((error) => {
-      console.error("Export request failed:", error);
-
-      // Re-enable the button and show an error message
-      exportButton.disabled = false;
-      exportButton.textContent = "Export";
-      alert("Export failed. Please try again later.");
-    });
-}
-
 const undoButton = document.getElementById("undoButton");
 
 function undo() {
