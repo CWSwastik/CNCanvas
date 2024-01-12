@@ -13,6 +13,8 @@ let endPoint = { x: 0, y: 0 };
 let curves = [];
 let curRadius = 50;
 
+let image = new Image();
+
 function resizeCanvasToDisplaySize(canvas) {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
@@ -158,6 +160,17 @@ canvas.addEventListener("mousemove", (e) => {
 // Function to draw all curves and lines in the curves array
 function drawCurves() {
   context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+  // Draw the image if it exists
+  if (image.src) {
+    // opacity 0.5
+    context.globalAlpha = 0.5;
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    context.globalAlpha = 1;
+  }
+
+  // Draw all curves in the curves array
+
   for (const curve of curves) {
     if (curve.type === "line") {
       drawLine(curve.start, curve.end);
@@ -368,3 +381,23 @@ if (window.innerWidth < 768) {
   const mobileNote = document.getElementById("mobileNote");
   mobileNote.style.display = "flex";
 }
+
+const addImageButton = document.getElementById("addImageButton");
+const fileInput = document.getElementById("fileInput");
+
+addImageButton.addEventListener("click", () => {
+  // open the file dialog
+  fileInput.click();
+});
+
+fileInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    image.src = event.target.result;
+    setTimeout(() => {
+      drawCurves();
+    }, 100);
+  };
+  reader.readAsDataURL(file);
+});

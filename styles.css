@@ -21,6 +21,7 @@ canvas {
   border: 2px solid #333;
   background-color: #fff;
   margin: 5px;
+  cursor: crosshair;
 }
 
 #tools {
@@ -149,4 +150,8 @@ button:hover {
 
 .tipBox {
   color: #555;
+}
+
+#fileInput {
+  display: none;
 }

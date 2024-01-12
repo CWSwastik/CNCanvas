@@ -16,14 +16,14 @@
     <title>CNC Sketch App</title>
   </head>
   <body>
-    <h2 id="appTitle">CNCanvas v1.2</h2>
+    <h2 id="appTitle">CNCanvas v1.3</h2>
     <div id="infoBox">
       <div>X, Y: <span id="coordinates">(0, 0)</span></div>
       <div>Radius: <span id="radius">0</span></div>
     </div>
     <div class="tipBox">
       Tip:
-      <span id="tip">You can adjust the radius by using the scroll wheel</span>
+      <span id="tip">You can adjust the radius by using the scroll wheel.</span>
     </div>
     <canvas id="canvas" width="100" height="100"></canvas>
     <div id="tools">
@@ -39,6 +39,8 @@
         <label for="autoSnapCheckbox">Auto Snap</label>
         <input type="checkbox" id="autoSnapCheckbox" checked />
       </div>
+      <button id="addImageButton">Add Guideline Image</button>
+      <input type="file" id="fileInput" accept="image/*" />
     </div>
 
     <!-- Hidden popup container -->
